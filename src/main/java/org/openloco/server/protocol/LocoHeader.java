@@ -1,6 +1,7 @@
 package org.openloco.server.protocol;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Loco Protocol Header
@@ -17,17 +18,18 @@ public record LocoHeader(
         int length
 ) {
 
-    public static ByteBuffer toByteBuffer(LocoHeader header) {
-        ByteBuffer buffer = ByteBuffer.allocate(16);
-        buffer.putInt(header.packetId());
-        buffer.putShort(header.status());
-        buffer.put(header.method().getBytes());
-        for (int i = header.method().length(); i < 11; i++) {
+    public byte[] toByteArray() {
+        ByteBuffer buffer = ByteBuffer.allocate(22);
+        buffer.putInt(packetId);
+        buffer.putShort(status);
+        buffer.put(method.getBytes(StandardCharsets.UTF_8));
+        for (int i = method.length(); i < 11; i++) {
             buffer.put((byte) 0); // padding (method is 11 bytes)
         }
-        buffer.putInt(header.length());
+        buffer.put((byte) 0); // what is this?
+        buffer.putInt(length);
         buffer.flip();
-        return buffer;
+        return buffer.array();
     }
 
 }

@@ -1,2 +1,6 @@
 # open-loco-server
-this is re-implementation of loco server in java
+기존의 카카오톡 채팅 프로토콜인 로코 프로토콜의 서버를 재구현하는 프로젝트입니다.
+
+## 기존 로코 서버와의 차이점
+- rsa 키가 다릅니다.
+> 새로운 키는 {}

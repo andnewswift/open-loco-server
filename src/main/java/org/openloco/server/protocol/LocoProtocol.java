@@ -15,4 +15,13 @@ public record LocoProtocol(
         return buffer.array();
     }
 
+    public static LocoProtocol fromByteArray(byte[] data) {
+        ByteBuffer buffer = ByteBuffer.wrap(data);
+        ByteBuffer headerBuffer = buffer.slice(0, 22);
+        LocoHeader header = LocoHeader.fromByteArray(headerBuffer.array());
+        byte[] body = new byte[header.length()];
+        buffer.get(body);
+        return new LocoProtocol(header, body);
+    }
+
 }

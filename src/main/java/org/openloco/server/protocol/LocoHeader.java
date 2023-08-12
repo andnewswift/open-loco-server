@@ -32,4 +32,16 @@ public record LocoHeader(
         return buffer.array();
     }
 
+    public static LocoHeader fromByteArray(byte[] data) {
+        ByteBuffer buffer = ByteBuffer.wrap(data);
+        int packetId = buffer.getInt();
+        short status = buffer.getShort();
+        byte[] methodBytes = new byte[11];
+        buffer.get(methodBytes);
+        String method = new String(methodBytes, StandardCharsets.UTF_8).trim();
+        buffer.get(); // what is this?
+        int length = buffer.getInt();
+        return new LocoHeader(packetId, status, method, length);
+    }
+
 }

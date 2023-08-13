@@ -13,20 +13,18 @@ import java.util.List;
 
 public class V2SLEncoder extends MessageToMessageEncoder<LocoProtocol> {
 
-    private Cipher cipher;
     private KeyGenerator keyGenerator;
 
     private CryptoHelper cryptoHelper;
 
     public V2SLEncoder(CryptoHelper cryptoHelper) {
         try {
-            V2SLEncryptionType encryptionType = V2SLEncryptionType.AES;
-            this.cipher = Cipher.getInstance(encryptionType.encryptionName());
-
             SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
             KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
             keyGenerator.init(128, secureRandom);
             this.keyGenerator = keyGenerator;
+
+            this.cryptoHelper = cryptoHelper;
         } catch (Exception e) {
             e.printStackTrace();
         }

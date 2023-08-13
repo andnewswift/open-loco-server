@@ -49,4 +49,5 @@ public class CryptoHelper {
     public void setEncryptionType(V2SLEncryptionType encryptionType) {
         this.encryptionType = encryptionType;
     }
+
 }

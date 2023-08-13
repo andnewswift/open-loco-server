@@ -1,19 +1,21 @@
 package org.openloco.server.test;
 
+import com.google.gson.JsonObject;
 import org.junit.jupiter.api.Test;
 import org.openloco.server.protocol.LocoHeader;
 import org.openloco.server.protocol.LocoProtocol;
+
+import java.util.Arrays;
 
 public class LocoTest {
 
     @Test
     public void equalsTest() {
-        LocoHeader header = new LocoHeader(0, (short) 0, "TEST", 0);
-        byte[] body = new byte[0];
-
-        LocoProtocol protocol = new LocoProtocol(header, body);
+        LocoProtocol protocol = LocoProtocol.create("TEST", new JsonObject());
 
         byte[] protocolData = protocol.toByteArray();
+
+        System.out.println("Test: " + Arrays.toString(protocolData));
 
         LocoProtocol protocol2 = LocoProtocol.fromByteArray(protocolData);
 
@@ -22,11 +24,7 @@ public class LocoTest {
 
         assert protocol.header().equals(protocol2.header());
 
-        assert protocol.body().length == protocol2.body().length;
-
-        for (int i = 0; i < protocol.body().length; i++) {
-            assert protocol.body()[i] == protocol2.body()[i];
-        }
+        assert protocol.body().equals(protocol2.body());
     }
 
 }

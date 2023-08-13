@@ -44,4 +44,39 @@ public record LocoHeader(
         return new LocoHeader(packetId, status, method, length);
     }
 
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private int packetId = 0;
+        private short status = 0;
+        private String method = "";
+        private int length = 0;
+
+        public Builder packetId(int packetId) {
+            this.packetId = packetId;
+            return this;
+        }
+
+        public Builder status(short status) {
+            this.status = status;
+            return this;
+        }
+
+        public Builder method(String method) {
+            this.method = method;
+            return this;
+        }
+
+        public Builder length(int length) {
+            this.length = length;
+            return this;
+        }
+
+        public LocoHeader build() {
+            return new LocoHeader(packetId, status, method, length);
+        }
+    }
+
 }

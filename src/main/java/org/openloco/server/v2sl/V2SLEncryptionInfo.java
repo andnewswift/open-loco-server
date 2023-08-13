@@ -1,8 +1,10 @@
 package org.openloco.server.v2sl;
 
+import org.openloco.server.crypto.CryptoHelper;
+
 public record V2SLEncryptionInfo(
-        int keyLength,
         V2SLEncryptionType encryptionType,
-        byte[] encryptionKey
+        byte[] encryptionKey,
+        CryptoHelper cryptoHelper
 ) {
 }

@@ -42,6 +42,18 @@ public class CryptoHelper {
         return cipher.doFinal(data);
     }
 
+    public byte[] encryptAES(byte[] data, byte[] iv) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        if (aesKey == null || encryptionType == null) {
+            throw new IllegalStateException("AES key or encryption type not set");
+        }
+
+        IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
+        Cipher cipher = Cipher.getInstance(encryptionType.encryptionName());
+        cipher.init(Cipher.ENCRYPT_MODE, aesKey, ivParameterSpec);
+
+        return cipher.doFinal(data);
+    }
+
     public void setAesKey(byte[] aesKey) {
         this.aesKey = new SecretKeySpec(aesKey, "AES");
     }

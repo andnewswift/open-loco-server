@@ -8,10 +8,14 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
 
 public class RSAUtil {
-    public static PrivateKey getPrivateKeyFromPEM(String pem) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        byte[] decoded = Base64.getDecoder().decode(pem);
+    public static PrivateKey getPrivateKeyFromPEM(String pem) {
+        try {
+            byte[] decoded = Base64.getDecoder().decode(pem);
 
-        return KeyFactory.getInstance("RSA")
-                .generatePrivate(new PKCS8EncodedKeySpec(decoded));
+            return KeyFactory.getInstance("RSA")
+                    .generatePrivate(new PKCS8EncodedKeySpec(decoded));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

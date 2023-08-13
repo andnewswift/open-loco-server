@@ -28,4 +28,5 @@ public class LocoInitializer extends ChannelInitializer<SocketChannel> {
         ch.pipeline().addLast(new V2SLEncoder(cryptoHelper));
         ch.pipeline().addLast(new ByteArrayEncoder());
     }
+
 }

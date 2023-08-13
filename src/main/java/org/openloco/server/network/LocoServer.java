@@ -5,6 +5,8 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import org.openloco.server.crypto.CryptoHelper;
+import org.openloco.server.crypto.RSAUtil;
 
 /**
  * @see org.openloco.server.OpenLocoServer
@@ -14,9 +16,13 @@ class LocoServer {
     String host;
     int port;
 
-    public LocoServer(String host, int port) {
+    CryptoHelper cryptoHelper;
+
+    public LocoServer(String host, int port, String rsaPrivatePem) {
         this.host = host;
         this.port = port;
+
+        this.cryptoHelper = new CryptoHelper(RSAUtil.getPrivateKeyFromPEM(rsaPrivatePem));
     }
 
     EventLoopGroup bossGroup = null;
@@ -30,6 +36,7 @@ class LocoServer {
             ServerBootstrap bootstrap = new ServerBootstrap();
             bootstrap.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
+                    .childHandler(new LocoInitializer(cryptoHelper))
                     .option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
 
